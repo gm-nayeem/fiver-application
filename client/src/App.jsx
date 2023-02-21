@@ -7,13 +7,13 @@ import {
 } from "react-router-dom";
 
 // pages and components
-import Navbar from './components/navbar/Navbar';
-import Footer from './components/footer/Footer';
-import Home from './pages/home/Home';
-import Gigs from "./pages/gigs/Gigs";
-import Gig from "./pages/gig/Gig";
+import Navbar from "./components/navbar/Navbar";
+import Footer from "./components/footer/Footer";
+import Home from "./pages/home/Home";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
+import Gigs from "./pages/gigs/Gigs";
+import Gig from "./pages/gig/Gig";
 import Add from "./pages/add/Add";
 import Orders from "./pages/orders/Orders";
 import Messages from "./pages/messages/Messages";
@@ -24,11 +24,13 @@ import MyGigs from "./pages/myGigs/MyGigs";
 const App = () => {
 
   const Layout = () => {
-    <div className='app'>
-      <Navbar />
-      <Outlet />
-      <Footer />
-    </div>
+    return (
+      <div className='app'>
+        <Navbar />
+        <Outlet />
+        <Footer />
+      </div>
+    )
   };
 
   const router = createBrowserRouter([
@@ -81,7 +83,7 @@ const App = () => {
   ]);
 
   return <RouterProvider router={router} />
-  
+
 }
 
 export default App;
