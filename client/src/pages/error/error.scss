@@ -1,0 +1,17 @@
+.error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 200px;
+
+    .container {
+        color: red;
+        font-size: 2rem;
+
+        h1 {
+            margin-left: 100px;
+        }
+        
+    }
+    
+}

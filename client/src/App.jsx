@@ -19,6 +19,7 @@ import Orders from "./pages/orders/Orders";
 import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
 import MyGigs from "./pages/myGigs/MyGigs";
+import Error from "./pages/error/Error";
 
 
 const App = () => {
@@ -79,6 +80,10 @@ const App = () => {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "*",
+      element: <Error />,
     },
   ]);
 
