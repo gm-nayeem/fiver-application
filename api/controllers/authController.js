@@ -1,10 +1,10 @@
-import User from "../models/User";
-import createError from "../utils/createError.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+const User = require("../models/User");
+const createError = require("../utils/createError.js");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
 // register
-export const register = async (req, res, next) => {
+const register = async (req, res, next) => {
     try {
         const hash = bcrypt.hashSync(req.body.password, 5);
         const newUser = new User({
@@ -20,7 +20,7 @@ export const register = async (req, res, next) => {
 };
 
 // login
-export const login = async (req, res, next) => {
+const login = async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.body.username });
 
@@ -42,19 +42,18 @@ export const login = async (req, res, next) => {
         const { password, ...info } = user._doc;
 
         // set cookie
-        res
-            .cookie("accessToken", token, {
-                httpOnly: true,
-            })
-            .status(200)
-            .send(info);
+        res.cookie("accessToken", token);
+
+        res.status(200).send(info);
     } catch (err) {
         next(err);
     }
 };
 
 // logout
-export const logout = async (req, res) => {
+const logout = async (req, res) => {
+    const token = req.cookies.accessToken;
+    console.log("token", token);
     // remove cookie
     res
         .clearCookie("accessToken", {
@@ -64,3 +63,10 @@ export const logout = async (req, res) => {
         .status(200)
         .send("User has been logged out.");
 };
+
+
+module.exports = {
+    register,
+    login,
+    logout
+}

@@ -38,7 +38,7 @@ function Register() {
 
     try {
       await newRequest.post("/auth/register", user);
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       console.log(err);
     }

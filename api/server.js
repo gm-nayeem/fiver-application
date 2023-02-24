@@ -7,8 +7,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 
 // import routes
-const authRoute = require("./routes/authRoute.js");
-const userRoute = require("./routes/userRoute.js");
+const authRoute = require("./routes/authRoute");
+const userRoute = require("./routes/userRoute");
 // import gigRoute from "./routes/gig.route.js";
 // import orderRoute from "./routes/order.route.js";
 // import conversationRoute from "./routes/conversation.route.js";
@@ -30,8 +30,9 @@ const connect = async () => {
 };
 
 // middlewares
-app.use(cors({ origin: "http://127.0.0.1:5173/", credentials: true }));
+app.use(cors({ origin: "http://127.0.0.1:5173", credentials: true }));
 app.use(express.json());
+// app.use(express.cookieParser());
 app.use(morgan('dev'));
 app.use(cookieParser());
 

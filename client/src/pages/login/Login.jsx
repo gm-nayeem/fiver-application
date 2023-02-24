@@ -12,15 +12,14 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log({username, password});
     
-    // try {
-    //   const res = await newRequest.post("/auth/login", { username, password });
-    //   localStorage.setItem("currentUser", JSON.stringify(res.data));
-    //   navigate("/");
-    // } catch (err) {
-    //   setError(err.response.data);
-    // }
+    try {
+      const res = await newRequest.post("/auth/login", { username, password });
+      localStorage.setItem("currentUser", JSON.stringify(res.data));
+      navigate("/");
+    } catch (err) {
+      setError(err.response.data);
+    }
   };
 
   return (
