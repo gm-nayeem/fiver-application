@@ -7,17 +7,16 @@ const cors = require('cors');
 const morgan = require('morgan');
 
 // import routes
-// import userRoute from "./routes/user.route.js";
+const authRoute = require("./routes/authRoute.js");
+const userRoute = require("./routes/userRoute.js");
 // import gigRoute from "./routes/gig.route.js";
 // import orderRoute from "./routes/order.route.js";
 // import conversationRoute from "./routes/conversation.route.js";
 // import messageRoute from "./routes/message.route.js";
 // import reviewRoute from "./routes/review.route.js";
-// import authRoute from "./routes/auth.route.js";
 
 
 const app = express();
-
 
 // mongodb connection
 mongoose.set("strictQuery", true);
@@ -37,8 +36,8 @@ app.use(morgan('dev'));
 app.use(cookieParser());
 
 // routes
-// app.use("/api/auth", authRoute);
-// app.use("/api/users", userRoute);
+app.use("/api/auth", authRoute);
+app.use("/api/users", userRoute);
 // app.use("/api/gigs", gigRoute);
 // app.use("/api/orders", orderRoute);
 // app.use("/api/conversations", conversationRoute);
