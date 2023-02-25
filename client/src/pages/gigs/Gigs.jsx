@@ -1,7 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./gigs.scss";
-import { gigs } from "../../data";
 import GigCard from "../../components/gigCard/GigCard";
+import newRequest from "../../utils/newRequest";
+import { useQuery } from "@tanstack/react-query"
+import { useLocation } from "react-router-dom";
 
 function Gigs() {
   const [sort, setSort] = useState("sales");
@@ -9,14 +11,34 @@ function Gigs() {
   const minRef = useRef();
   const maxRef = useRef();
 
+  const { search } = useLocation()
+
+
+  // fetch all gigs using useQuery
+  const { isLoading, error, data, refetch } = useQuery({
+    queryKey: ['gigs'],
+    queryFn: () =>
+      newRequest
+        .get(
+          `/gigs${search}&min=${minRef.current.value}&max=${maxRef.current.value}&sort=${sort}`
+          )
+        .then(res => {
+          return res.data;
+        }),
+  });
+
   const reSort = (type) => {
     setSort(type);
     setOpen(false);
   };
 
-  const apply = ()=>{
-    console.log(minRef.current.value)
-    console.log(maxRef.current.value)
+  // refech  query
+  useEffect(() => {
+    refetch();
+  }, [sort]);
+
+  const apply = () => {
+    refetch();
   }
 
   return (
@@ -46,16 +68,21 @@ function Gigs() {
                   <span onClick={() => reSort("createdAt")}>Newest</span>
                 ) : (
                   <span onClick={() => reSort("sales")}>Best Selling</span>
-                  )}
-                  <span onClick={() => reSort("sales")}>Popular</span>
+                )}
               </div>
             )}
           </div>
         </div>
         <div className="cards">
-          {gigs.map((gig) => (
-            <GigCard key={gig.id} item={gig} />
-          ))}
+          {
+            isLoading
+              ? "loading..."
+              : error
+                ? "something went wrong!"
+                : data.map((gig) => (
+                  <GigCard key={gig._id} gig={gig} />
+                ))
+          }
         </div>
       </div>
     </div>
