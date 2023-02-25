@@ -9,11 +9,12 @@ const morgan = require('morgan');
 // import routes
 const authRoute = require("./routes/authRoute");
 const userRoute = require("./routes/userRoute");
-// import gigRoute from "./routes/gig.route.js";
-// import orderRoute from "./routes/order.route.js";
-// import conversationRoute from "./routes/conversation.route.js";
-// import messageRoute from "./routes/message.route.js";
-// import reviewRoute from "./routes/review.route.js";
+const gigRoute = require("./routes/gigRoute");
+const reviewRoute = require("./routes/reviewRoute");
+const orderRoute = require("./routes/orderRoute");
+// const conversationRoute = require("./routes/conversationRoute");
+// const messageRoute = require("./routes/messageRoute");
+
 
 
 const app = express();
@@ -32,18 +33,17 @@ const connect = async () => {
 // middlewares
 app.use(cors({ origin: "http://127.0.0.1:5173", credentials: true }));
 app.use(express.json());
-// app.use(express.cookieParser());
 app.use(morgan('dev'));
 app.use(cookieParser());
 
 // routes
 app.use("/api/auth", authRoute);
 app.use("/api/users", userRoute);
-// app.use("/api/gigs", gigRoute);
-// app.use("/api/orders", orderRoute);
+app.use("/api/gigs", gigRoute);
+app.use("/api/reviews", reviewRoute);
+app.use("/api/orders", orderRoute);
 // app.use("/api/conversations", conversationRoute);
 // app.use("/api/messages", messageRoute);
-// app.use("/api/reviews", reviewRoute);
 
 
 // error generate
