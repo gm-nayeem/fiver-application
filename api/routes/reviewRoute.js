@@ -7,7 +7,7 @@ const {
 } = require("../controllers/reviewController");
 
 
-router.post("/", verifyToken, createReview )
+router.post("/", verifyToken, createReview ) // verify token need
 router.get("/:gigId", getReviews )
 router.delete("/:id", deleteReview)     // not done yet
 
