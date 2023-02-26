@@ -2,7 +2,7 @@
 require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-const cookieParser = require('cookie-parser');
+var session = require('express-session');
 const cors = require('cors');
 const morgan = require('morgan');
 
@@ -14,7 +14,6 @@ const reviewRoute = require("./routes/reviewRoute");
 const orderRoute = require("./routes/orderRoute");
 // const conversationRoute = require("./routes/conversationRoute");
 // const messageRoute = require("./routes/messageRoute");
-
 
 
 const app = express();
@@ -30,11 +29,22 @@ const connect = async () => {
   }
 };
 
+
 // middlewares
 app.use(cors({ origin: "http://127.0.0.1:5173", credentials: true }));
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(cookieParser());
+
+// set session
+app.use(session({
+  secret: 'hello',
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24 * 7 // 1 week
+  },
+}));
+
 
 // routes
 app.use("/api/auth", authRoute);
@@ -44,6 +54,15 @@ app.use("/api/reviews", reviewRoute);
 app.use("/api/orders", orderRoute);
 // app.use("/api/conversations", conversationRoute);
 // app.use("/api/messages", messageRoute);
+
+
+// default route
+// app.get("/", (req, res) => {
+//   console.log("login user: ", req.session.user);
+//   res.send(`Access Token: ${req.session.token}`);
+//   console.log("login user: ", req.session.user);
+
+// });
 
 
 // error generate

@@ -30,19 +30,30 @@ const login = async (req, res, next) => {
         if (!isCorrect)
             return next(createError(400, "Wrong password or username!"));
 
-        // jwt
+        // jwt token
         const token = jwt.sign(
             {
                 id: user._id,
                 isSeller: user.isSeller,
             },
-            process.env.JWT_KEY
+            process.env.JWT_KEY,
+            { expiresIn: "2h" }
         );
 
         const { password, ...info } = user._doc;
 
-        // set cookie
-        res.cookie("accessToken", token);
+        // set session
+        req.session.token = token;
+        req.session.user = "user";
+        req.session.save(err => {
+            if (err) {
+                console.log("session error: ", err);
+                return next(err);
+            }
+        });
+
+        console.log("login token: ", req.session.token);
+        console.log("login user: ", req.session.user);
 
         res.status(200).send(info);
     } catch (err) {
@@ -51,17 +62,17 @@ const login = async (req, res, next) => {
 };
 
 // logout
-const logout = async (req, res) => {
-    const token = req.cookies.accessToken;
-    console.log("token", token);
-    // remove cookie
-    res
-        .clearCookie("accessToken", {
-            sameSite: "none",
-            secure: true,
-        })
-        .status(200)
-        .send("User has been logged out.");
+const logout = (req, res) => {
+    const user = req.session.user;
+
+    req.session.destroy(err => {
+        if (err) {
+            return next(err)
+        } else {
+            console.log("session destroy: ", user);
+        }
+    });
+    res.status(200).send("User has been logged out.");
 };
 
 

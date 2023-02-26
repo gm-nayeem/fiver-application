@@ -36,7 +36,7 @@ const Orders = () => {
             {<th>{currentUser.isSeller ? "Buyer" : "Seller"}</th>}
             <th>Contact</th>
           </tr>
-          <tr>
+          {/* <tr>
             <td>
               <img
                 className="image"
@@ -50,9 +50,9 @@ const Orders = () => {
             <td>
               <img className="message" src="./img/message.png" alt="" />
             </td>
-          </tr>
+          </tr> */}
 
-          {/* {
+          {
             isLoading
               ? "loading..."
               : error
@@ -62,12 +62,12 @@ const Orders = () => {
                     <td>
                       <img
                         className="image"
-                        src={Order?.img || "https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600"}
+                        src={order?.img}
                         alt=""
                       />
                     </td>
-                    <td>{order?.title || "title"}</td>
-                    <td>{order?.price || 50}</td>
+                    <td>{order?.title}</td>
+                    <td>{order?.price}</td>
                     <td>Maria Anders</td>
                     <td>
                       <img className="message" src="./img/message.png" alt="" />
@@ -75,7 +75,7 @@ const Orders = () => {
                   </tr>
                 ))
                 )
-          } */}
+          }
 
         </table>
       </div>

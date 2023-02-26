@@ -28,7 +28,7 @@ function Navbar() {
   // logout
   const handleLogout = async () => {
     try {
-      await newRequest.post("/auth/logout");
+      await newRequest.get("/auth/logout");
       localStorage.setItem("currentUser", null);
       navigate("/");
     } catch (err) {
