@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./gigs.scss";
 import GigCard from "../../components/gigCard/GigCard";
-import newRequest from "../../utils/newRequest";
+import {publicRequest} from "../../utils/request";
 import { useQuery } from "@tanstack/react-query"
 import { useLocation } from "react-router-dom";
 
@@ -18,7 +18,7 @@ function Gigs() {
   const { isLoading, error, data, refetch } = useQuery({
     queryKey: ['gigs'],
     queryFn: () =>
-      newRequest
+      publicRequest
         .get(
           `/gigs${search}&min=${minRef.current.value}&max=${maxRef.current.value}&sort=${sort}`
           )

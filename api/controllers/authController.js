@@ -1,5 +1,5 @@
 const User = require("../models/User");
-const createError = require("../utils/createError.js");
+const createError = require("../utils/createError");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
@@ -30,54 +30,25 @@ const login = async (req, res, next) => {
         if (!isCorrect)
             return next(createError(400, "Wrong password or username!"));
 
-        // jwt token
         const token = jwt.sign(
             {
                 id: user._id,
                 isSeller: user.isSeller,
             },
             process.env.JWT_KEY,
-            { expiresIn: "2h" }
+            {expiresIn: "24h"}
         );
 
         const { password, ...info } = user._doc;
+        res.status(200).send({...info, accessToken: token});
 
-        // set session
-        req.session.token = token;
-        req.session.user = "user";
-        req.session.save(err => {
-            if (err) {
-                console.log("session error: ", err);
-                return next(err);
-            }
-        });
-
-        console.log("login token: ", req.session.token);
-        console.log("login user: ", req.session.user);
-
-        res.status(200).send(info);
     } catch (err) {
         next(err);
     }
 };
 
-// logout
-const logout = (req, res) => {
-    const user = req.session.user;
-
-    req.session.destroy(err => {
-        if (err) {
-            return next(err)
-        } else {
-            console.log("session destroy: ", user);
-        }
-    });
-    res.status(200).send("User has been logged out.");
-};
-
 
 module.exports = {
     register,
-    login,
-    logout
+    login
 }

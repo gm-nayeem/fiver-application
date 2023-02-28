@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import upload from "../../utils/upload";
 import "./register.scss";
-import newRequest from "../../utils/newRequest";
+import {publicRequest} from "../../utils/request";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
@@ -37,7 +37,7 @@ function Register() {
     // const url = await upload(file);
 
     try {
-      await newRequest.post("/auth/register", user);
+      await publicRequest.post("/auth/register", user);
       navigate("/login");
     } catch (err) {
       console.log(err);

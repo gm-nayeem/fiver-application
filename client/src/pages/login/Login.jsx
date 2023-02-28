@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./login.scss";
-import newRequest from "../../utils/newRequest";
+import {publicRequest} from "../../utils/request";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
@@ -14,8 +14,9 @@ function Login() {
     e.preventDefault();
     
     try {
-      const res = await newRequest.post("/auth/login", { username, password });
+      const res = await publicRequest.post("/auth/login", { username, password });
       localStorage.setItem("currentUser", JSON.stringify(res.data));
+      // console.log(res.data);
       navigate("/");
     } catch (err) {
       setError(err.response.data);
@@ -36,8 +37,8 @@ function Login() {
 
         <label htmlFor="">Password</label>
         <input
-          name="password"
           type="password"
+          name="password"
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit">Login</button>

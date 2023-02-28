@@ -7,10 +7,9 @@ const {
 } = require("../controllers/conversationController");
 const verifyToken  = require("../middleware/jwt");
 
-// all route are protected with verify token
-router.get("/", getConversations);
-router.post("/", createConversation);
-router.get("/single/:id", getSingleConversation);
-router.put("/:id", updateConversation);
+router.get("/", verifyToken, getConversations);
+router.post("/", verifyToken, createConversation);
+router.get("/single/:id", verifyToken, getSingleConversation);
+router.put("/:id", verifyToken, updateConversation);
 
 module.exports = router;

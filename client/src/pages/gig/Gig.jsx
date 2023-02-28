@@ -2,9 +2,9 @@ import React from "react";
 import "./gig.scss";
 import { Slider } from "infinite-react-carousel/lib";
 import { useParams } from "react-router-dom";
-import newRequest from "../../utils/newRequest";
 import { useQuery } from "@tanstack/react-query";
 import Reviews from "../../components/reviews/Reviews";
+import { publicRequest, userRequest } from "../../utils/request";
 
 function Gig() {
   // gig id
@@ -14,7 +14,7 @@ function Gig() {
   const { isLoading, error, data } = useQuery({
     queryKey: [`gig`],
     queryFn: () =>
-      newRequest.get(`/gigs/single/${id}`).then(res => {
+      publicRequest.get(`/gigs/single/${id}`).then(res => {
         return res.data;
       }),
   });
@@ -23,7 +23,7 @@ function Gig() {
   const { isLoading: isLoadingUser, error: errorUser, data: dataUser } = useQuery({
     queryKey: [`${data?.userId || "user"}`],
     queryFn: () =>
-      newRequest.get(`/users/${data.userId}`).then(res => {
+      userRequest.get(`/users/${data.userId}`).then(res => {
         return res.data;
       }),
   });

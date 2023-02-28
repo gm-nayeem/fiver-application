@@ -60,7 +60,6 @@ const createOrder = async (req, res, next) => {
 // get orders
 const getOrders = async (req, res, next) => {
     try {
-        console.log("order: ", req.session.user);
         const orders = await Order.find({
             ...(req.isSeller ? { sellerId: req.userId } : { buyerId: req.userId }),
             isCompleted: true,

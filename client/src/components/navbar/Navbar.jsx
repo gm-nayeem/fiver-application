@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import newRequest from '../../utils/newRequest';
 import "./navbar.scss";
 
 function Navbar() {
@@ -28,9 +27,8 @@ function Navbar() {
   // logout
   const handleLogout = async () => {
     try {
-      await newRequest.get("/auth/logout");
       localStorage.setItem("currentUser", null);
-      navigate("/");
+      navigate("/login");
     } catch (err) {
       console.log(err);
     }

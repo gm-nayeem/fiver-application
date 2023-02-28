@@ -3,7 +3,7 @@ const createError = require("../utils/createError");
 
 // create gig
 const createGig = async (req, res, next) => {
-    console.log(req.body);
+    // console.log(req.body);
     if (!req.isSeller)
         return next(createError(403, "Only sellers can create a gig!"));
 

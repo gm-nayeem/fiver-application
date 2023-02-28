@@ -2,7 +2,7 @@ import React from "react";
 import "./gigCard.scss";
 import { Link } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import newRequest from "../../utils/newRequest";
+import {userRequest} from "../../utils/request";
 
 const GigCard = ({ gig }) => {
 
@@ -10,7 +10,7 @@ const GigCard = ({ gig }) => {
   const { isLoading, error, data } = useQuery({
     queryKey: [`${gig.userId}`],
     queryFn: () =>
-      newRequest.get(`/users/${gig.userId}`).then(res => {
+      userRequest.get(`/users/${gig.userId}`).then(res => {
         return res.data;
       }),
   });

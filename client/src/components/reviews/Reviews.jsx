@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React from 'react'
-import newRequest from '../../utils/newRequest';
+import { publicRequest, userRequest } from '../../utils/request';
 import Review from '../review/Review'
 import './reviews.scss'
 
@@ -12,7 +12,7 @@ const Reviews = ({ gigId }) => {
     const { isLoading, error, data } = useQuery({
         queryKey: [`reviews`],
         queryFn: () =>
-            newRequest.get(`/reviews/${gigId}`).then(res => {
+            publicRequest.get(`/reviews/${gigId}`).then(res => {
                 return res.data;
             }),
     });
@@ -20,7 +20,7 @@ const Reviews = ({ gigId }) => {
     // send post req 
     const mutation = useMutation({
         mutationFn: (review) => {
-            return newRequest.post('/reviews', review)
+            return userRequest.post('/reviews', review)
         },
         onSuccess: () => {
             queryClient.invalidateQueries("reviews")
