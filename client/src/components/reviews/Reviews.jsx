@@ -23,7 +23,7 @@ const Reviews = ({ gigId }) => {
             return userRequest.post('/reviews', review)
         },
         onSuccess: () => {
-            queryClient.invalidateQueries("reviews")
+            queryClient.invalidateQueries(["reviews"])
         }
     });
 
@@ -39,6 +39,8 @@ const Reviews = ({ gigId }) => {
         mutation.mutate({gigId, star, desc});
 
     }
+
+    console.log(data);
 
     return (
         <div className="reviews">
