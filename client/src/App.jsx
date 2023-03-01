@@ -80,6 +80,10 @@ const App = () => {
           path: "/gig/:id",
           element: <Gig />,
         },
+        {
+          path: "/pay/:gigId",
+          element: <Pay />,
+        },
       ],
     },
     {
@@ -89,10 +93,6 @@ const App = () => {
     {
       path: "/login",
       element: <Login />,
-    },
-    {
-      path: "/pay",
-      element: <Pay />,
     },
     {
       path: "*",

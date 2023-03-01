@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Reviews from "../../components/reviews/Reviews";
 import { publicRequest, userRequest } from "../../utils/request";
+import { Link } from "react-router-dom";
 
 function Gig() {
   // gig id
@@ -181,7 +182,9 @@ function Gig() {
                       ))
                     }
                   </div>
-                  <button>Continue</button>
+                  <Link to={`/pay/${data._id}`}>
+                    <button>Continue</button> 
+                  </Link>
                 </div>
               </div>
             )

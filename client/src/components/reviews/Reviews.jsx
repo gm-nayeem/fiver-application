@@ -40,7 +40,6 @@ const Reviews = ({ gigId }) => {
 
     }
 
-    console.log(data);
 
     return (
         <div className="reviews">
