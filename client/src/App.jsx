@@ -19,6 +19,7 @@ import Orders from "./pages/orders/Orders";
 import Messages from "./pages/messages/Messages";
 import Message from "./pages/message/Message";
 import MyGigs from "./pages/myGigs/MyGigs";
+import Pay from "./pages/pay/Pay";
 import Error from "./pages/error/Error";
 
 // react query
@@ -88,6 +89,10 @@ const App = () => {
     {
       path: "/login",
       element: <Login />,
+    },
+    {
+      path: "/pay",
+      element: <Pay />,
     },
     {
       path: "*",

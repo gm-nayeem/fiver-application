@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import "./message.scss";
 import { userRequest } from "../../utils/request";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
 
 const Message = () => {
-  const location = useLocation()
+  const location = useLocation();
+  const receiverId = location.state?.receiverId;
+  
   const { id } = useParams();
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 
@@ -15,12 +17,12 @@ const Message = () => {
   const { isLoading: isLoadingUser, error: errorUser, data: dataUser } = useQuery({
     queryKey: ["user"],
     queryFn: () =>
-      userRequest.get(`/users/${location.state?.receiverId}`).then((res) => {
+      userRequest.get(`/users/${receiverId}`).then((res) => {
         return res.data;
       }),
   });
 
-  // fetch all messages using converstaion id
+  // fetch messages using converstaion id
   const { isLoading, error, data } = useQuery({
     queryKey: ["messages"],
     queryFn: () =>
@@ -57,9 +59,15 @@ const Message = () => {
   return (
     <div className="message">
       <div className="container">
-        <span className="breadcrumbs">
-          <Link to="/messages" className="link">Messages</Link> {` > ${dataUser?.username} >`}
-        </span>
+        {
+          isLoadingUser ? "loading..."
+            : errorUser ? "something went wrong!"
+              : (
+                <span className="breadcrumbs">
+                  <Link to="/messages" className="link">Messages</Link> {` > ${dataUser?.username} >`}
+                </span>
+              )
+        }
         {
           isLoading ? "loading..."
             : error ? "something went wrong!"
@@ -67,10 +75,10 @@ const Message = () => {
                 <div className="messages">
                   {
                     data.map(msg => (
-                      <div 
+                      <div
                         className={
-                          msg.userId === currentUser._id ? "item owner" 
-                          : "item" 
+                          msg.userId === currentUser._id ? "item owner"
+                            : "item"
                         }
                         key={msg._id}
                       >
@@ -89,7 +97,7 @@ const Message = () => {
         }
         <hr />
         <form className="write" onSubmit={handleSubmit}>
-          <textarea type="text" placeholder="write a message" 
+          <textarea type="text" placeholder="write a message"
           />
           <button type="submit">Send</button>
         </form>

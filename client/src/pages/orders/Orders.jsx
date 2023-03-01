@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./orders.scss";
 import { userRequest } from "../../utils/request";
 import { useQuery } from "@tanstack/react-query";
@@ -7,8 +7,9 @@ import { useQuery } from "@tanstack/react-query";
 
 const Orders = () => {
   const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const navigate = useNavigate();
 
-  // fetch all orders
+  // fetch orders
   const { isLoading, error, data } = useQuery({
     queryKey: ['orders'],
     queryFn: () =>
@@ -20,6 +21,33 @@ const Orders = () => {
           return res.data;
         }),
   });
+
+  // handle contact
+  const handleOrder = async (order) => {
+    const sellerId = order.sellerId;
+    const buyerId = order.buyerId;
+    const id = sellerId + buyerId;
+
+    const receiverId = currentUser.isSeller ? buyerId : sellerId;
+
+    try {
+      // find conversation id
+      const res = await userRequest.get(`/conversations/single/${id}`);
+      navigate(`/message/${res.data.id}`, {
+        state: {receiverId: receiverId}
+      })
+    } catch(err) {
+      if(err.response.status ===404) {
+        // create conversation if not exists
+        const res = await userRequest.post(`/conversations`, {
+          to: receiverId
+        });
+        navigate(`/message/${res.data.id}`, {
+          state: {receiverId: receiverId}
+        })
+      }
+    }
+  }
 
 
   return (
@@ -62,7 +90,10 @@ const Orders = () => {
                           }
                         </td>
                         <td>
-                          <img className="message" src="./img/message.png" alt="" />
+                          <img className="message" 
+                            src="./img/message.png" alt="" 
+                            onClick={() => handleOrder(order)}
+                          />
                         </td>
                       </tr>
                     ))
@@ -76,21 +107,3 @@ const Orders = () => {
 };
 
 export default Orders;
-
-
-
-{/* <tr>
-            <td>
-              <img
-                className="image"
-                src="https://images.pexels.com/photos/270408/pexels-photo-270408.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                alt=""
-              />
-            </td>
-            <td>title</td>
-            <td>50</td>
-            <td>Maria Anders</td>
-            <td>
-              <img className="message" src="./img/message.png" alt="" />
-            </td>
-          </tr> */}

@@ -14,7 +14,7 @@ const createMessage = async (req, res, next) => {
         
         // after creating new msg update conversation
         await Conversation.findOneAndUpdate(
-            { _id: req.body.conversationId },
+            { id: req.body.conversationId },
             {
                 $set: {
                     readBySeller: req.isSeller,

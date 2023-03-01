@@ -71,7 +71,7 @@ const Messages = () => {
                         </td>
                         <td>
                           <Link 
-                            to={`/message/${con._id}`} 
+                            to={`/message/${con.id}`} 
                             state={{receiverId: currentUser.isSeller ? con.buyerId : con.sellerId}}
                             className="link"
                           >
