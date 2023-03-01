@@ -12,7 +12,7 @@ const gigRoute = require("./routes/gigRoute");
 const reviewRoute = require("./routes/reviewRoute");
 const orderRoute = require("./routes/orderRoute");
 const conversationRoute = require("./routes/conversationRoute");
-// const messageRoute = require("./routes/messageRoute");
+const messageRoute = require("./routes/messageRoute");
 
 
 const app = express();
@@ -42,7 +42,7 @@ app.use("/api/gigs", gigRoute);
 app.use("/api/reviews", reviewRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/conversations", conversationRoute);
-// app.use("/api/messages", messageRoute);
+app.use("/api/messages", messageRoute);
 
 
 // error generate

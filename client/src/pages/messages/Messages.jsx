@@ -70,7 +70,11 @@ const Messages = () => {
                           {currentUser.isSeller ? con.buyerId : con.sellerId}
                         </td>
                         <td>
-                          <Link to={`/message/${con._id}`} className="link">
+                          <Link 
+                            to={`/message/${con._id}`} 
+                            state={{receiverId: currentUser.isSeller ? con.buyerId : con.sellerId}}
+                            className="link"
+                          >
                             {con?.lastMessage?.substring(0, 100)} ...
                           </Link>
                         </td>
