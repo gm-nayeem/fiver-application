@@ -3,7 +3,7 @@ const createError = require("../utils/createError");
 
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers.token;
-    
+
     if (!authHeader) return next(createError(401, "You are not authenticated!"))
 
     const token = authHeader.split(" ")[1];

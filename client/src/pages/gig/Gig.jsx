@@ -22,9 +22,9 @@ function Gig() {
 
   // fetch gig user
   const { isLoading: isLoadingUser, error: errorUser, data: dataUser } = useQuery({
-    queryKey: [`${data?.userId || "user"}`],
+    queryKey: [`${data?.userId}`],
     queryFn: () =>
-      userRequest.get(`/users/${data.userId}`).then(res => {
+      userRequest.get(`/users/${data?.userId}`).then(res => {
         return res.data;
       }),
   });

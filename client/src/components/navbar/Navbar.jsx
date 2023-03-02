@@ -28,7 +28,7 @@ function Navbar() {
   const handleLogout = async () => {
     try {
       localStorage.setItem("currentUser", null);
-      navigate("/login");
+      navigate("/login", {replace: true});
     } catch (err) {
       console.log(err);
     }

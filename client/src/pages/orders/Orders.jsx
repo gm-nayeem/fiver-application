@@ -28,7 +28,7 @@ const Orders = () => {
     const buyerId = order.buyerId;
     const id = sellerId + buyerId;
 
-    const receiverId = currentUser.isSeller ? buyerId : sellerId;
+    const receiverId = currentUser?.isSeller ? buyerId : sellerId;
 
     try {
       // find conversation id

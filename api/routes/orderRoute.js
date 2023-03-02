@@ -7,7 +7,7 @@ const {
 
 // router.post("/:gigId", verifyToken, createOrder);
 router.get("/", verifyToken, getOrders); 
-router.post("/create-payment-intent/:id", verifyToken, intent);
+router.post("/create-payment-intent/:gigId", verifyToken, intent);
 router.put("/", verifyToken, confirm);
 
 

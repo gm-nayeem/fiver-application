@@ -8,7 +8,7 @@ const intent = async (req, res, next) => {
     const stripe = new Stripe(process.env.STRIPE_KEY);
 
     try {
-        const gig = await Gig.findById(req.params.id);
+        const gig = await Gig.findById(req.params.gigId);
 
         const paymentIntent = await stripe.paymentIntents.create({
             amount: gig.price * 100,
@@ -31,7 +31,7 @@ const intent = async (req, res, next) => {
 
         await newOrder.save();
 
-        res.status(200).send({
+        res.status(201).send({
             clientSecret: paymentIntent.client_secret,
         });
     } catch (err) {
@@ -56,7 +56,7 @@ const getOrders = async (req, res, next) => {
 // update order
 const confirm = async (req, res, next) => {
     try {
-        const orders = await Order.findOneAndUpdate(
+        await Order.findOneAndUpdate(
             {
                 payment_intent: req.body.payment_intent,
             },
