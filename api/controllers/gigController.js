@@ -35,9 +35,10 @@ const deleteGig = async (req, res, next) => {
 };
 
 // get single gig
-const getGig = async (req, res, next) => {
+const getGig = async (req, res, next) => {    
     try {
         const gig = await Gig.findById(req.params.gigId);
+
         if (!gig) next(createError(404, "Gig not found!"));
         res.status(200).send(gig);
     } catch (err) {
@@ -61,8 +62,10 @@ const getGigs = async (req, res, next) => {
         ...(q.search && { title: { $regex: q.search, $options: "i" } }),
     };
     try {
-        const gigs = await Gig.find(filters).sort({ [q.sort]: -1 });
-        res.status(200).send(gigs);
+        const gigs = await Gig.find(filters)?.sort({ [q.sort]: -1 });
+        if(gigs) {
+            res.status(200).send(gigs);
+        }
     } catch (err) {
         next(err);
     }

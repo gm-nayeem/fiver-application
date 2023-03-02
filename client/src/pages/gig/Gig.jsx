@@ -1,7 +1,7 @@
 import React from "react";
 import "./gig.scss";
 import { Slider } from "infinite-react-carousel/lib";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import Reviews from "../../components/reviews/Reviews";
 import { publicRequest, userRequest } from "../../utils/request";
@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 function Gig() {
   // gig id
   const { id } = useParams();
+
+  const location = useLocation();
 
   // fetch single gig
   const { isLoading, error, data } = useQuery({
@@ -22,12 +24,13 @@ function Gig() {
 
   // fetch gig user
   const { isLoading: isLoadingUser, error: errorUser, data: dataUser } = useQuery({
-    queryKey: [`${data?.userId}`],
+    queryKey: [`${location.state?.userId}`],
     queryFn: () =>
-      userRequest.get(`/users/${data?.userId}`).then(res => {
+      userRequest.get(`/users/${location.state?.userId}`).then(res => {
         return res.data;
       }),
   });
+
 
   return (
     <div className="gig">

@@ -58,22 +58,23 @@ const Add = () => {
   const queryClient = useQueryClient();
 
   // send gig
-  // const mutation = useMutation({
-  //   mutationFn: (gig) => {
-  //     return userRequest.post("/gigs", gig);
-  //   },
-  //   onSuccess: () => {
-  //     queryClient.invalidateQueries(["myGigs"]);
-  //   },
-  // });
+  const mutation = useMutation({
+    mutationFn: (gig) => {
+      return userRequest.post("/gigs", gig);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["myGigs"]);
+    },
+  });
 
   // submit gig all info
   const handleSubmit = (e) => {
     e.preventDefault();
+    mutation.mutate(state);
 
-    console.log(state);
-    // mutation.mutate(state);
-    // navigate("/mygigs");
+    setTimeout(() => {
+      navigate("/mygigs");
+    }, 2000);
   };
 
   return (

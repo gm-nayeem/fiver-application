@@ -23,6 +23,7 @@ import MyGigs from "./pages/myGigs/MyGigs";
 import Pay from "./pages/pay/Pay";
 import Success from "./pages/success/Success";
 import Error from "./pages/error/Error";
+import Test from "./pages/test/Test";
 
 // react query
 import {
@@ -100,6 +101,10 @@ const App = () => {
     {
       path: "/login",
       element: currentUser ? <Navigate to="/" replace /> : <Login />,
+    },
+    {
+      path: "/test",
+      element: <Test />
     },
     {
       path: "*",
