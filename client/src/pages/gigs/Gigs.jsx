@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./gigs.scss";
 import GigCard from "../../components/gigCard/GigCard";
-import {publicRequest} from "../../utils/request";
+import { publicRequest } from "../../utils/request";
 import { useQuery } from "@tanstack/react-query"
 import { useLocation } from "react-router-dom";
 
@@ -11,8 +11,7 @@ function Gigs() {
   const minRef = useRef();
   const maxRef = useRef();
 
-  const { search } = useLocation()
-
+  const { search } = useLocation();
 
   // fetch all gigs using useQuery
   const { isLoading, error, data, refetch } = useQuery({
@@ -20,8 +19,8 @@ function Gigs() {
     queryFn: () =>
       publicRequest
         .get(
-          `/gigs${search}&min=${minRef?.current.value}&max=${maxRef?.current.value}&sort=${sort}`
-          )
+          `/gigs?${search}&min=${minRef?.current.value}&max=${maxRef?.current.value}&sort=${sort}`
+        )
         .then(res => {
           return res.data;
         }),
@@ -32,7 +31,7 @@ function Gigs() {
     setOpen(false);
   };
 
-  // refech  query
+  // refetch  query
   useEffect(() => {
     refetch();
   }, [sort]);

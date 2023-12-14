@@ -3,10 +3,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { publicRequest, userRequest } from "../../utils/request";
 import "./myGigs.scss";
+import { getCurrentUser } from "../../utils/getCurrentUser";
 
 function MyGigs() {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
+  const currentUser = getCurrentUser();
   const queryClient = useQueryClient();
 
   // get users gigs

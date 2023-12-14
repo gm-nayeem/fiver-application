@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./home.scss";
 import Featured from "../../components/featured/Featured";
 import TrustedBy from "../../components/trustedBy/TrustedBy";
@@ -6,9 +6,23 @@ import Slide from "../../components/slide/Slide";
 import CatCard from "../../components/catCard/CatCard";
 import ProjectCard from "../../components/projectCard/ProjectCard";
 import { cards, projects } from "../../data";
+import { useLocation } from "react-router-dom";
 
-function Home() {
-  
+const Home = () => {
+  const location = useLocation();
+  const refresh = location.state?.refresh;
+
+  useEffect(() => {
+    if (refresh) {
+      const fiverRefreshed = localStorage.getItem('fiverRefreshed');
+
+      if (fiverRefreshed === 'false') {
+        localStorage.setItem('fiverRefreshed', 'true');
+        window.location.reload();
+      }
+    }
+  }, [refresh]);
+
   return (
     <div className="home">
       <Featured />

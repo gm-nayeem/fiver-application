@@ -28,10 +28,9 @@ const connect = async () => {
   }
 };
 
-
 // middlewares
 app.use(morgan('dev'));
-app.use(cors({ origin: "http://127.0.0.1:5173", credentials: true }));
+app.use(cors());
 app.use(express.json());
 
 
@@ -55,6 +54,6 @@ app.use((err, req, res, next) => {
 
 // server run on this port
 app.listen(process.env.PORT, () => {
-  connect();
   console.log("Backend server is running!");
+  connect();
 });

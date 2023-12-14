@@ -4,10 +4,10 @@ import "./messages.scss";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { userRequest } from "../../utils/request";
 import moment from "moment";
+import { getCurrentUser } from "../../utils/getCurrentUser";
 
 const Messages = () => {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-
+  const currentUser = getCurrentUser();
   const queryClient = useQueryClient();
 
   // fetch all conversations
@@ -49,7 +49,7 @@ const Messages = () => {
                 </div>
                 <table>
                   <tr>
-                    <th>{currentUser.isSeller ? "Buyer" : "Seller"}</th>
+                    <th>{currentUser.isSeller ? "Buyer Id" : "Seller Id"}</th>
                     <th>Last Message</th>
                     <th>Date</th>
                     <th>Action</th>
@@ -70,9 +70,9 @@ const Messages = () => {
                           {currentUser.isSeller ? con.buyerId : con.sellerId}
                         </td>
                         <td>
-                          <Link 
-                            to={`/message/${con.id}`} 
-                            state={{receiverId: currentUser.isSeller ? con.buyerId : con.sellerId}}
+                          <Link
+                            to={`/message/${con.id}`}
+                            state={{ receiverId: currentUser.isSeller ? con.buyerId : con.sellerId }}
                             className="link"
                           >
                             {con?.lastMessage?.substring(0, 100)} ...

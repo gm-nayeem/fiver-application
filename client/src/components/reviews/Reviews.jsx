@@ -5,7 +5,6 @@ import Review from '../review/Review'
 import './reviews.scss'
 
 const Reviews = ({ gigId }) => {
-
     const queryClient = useQueryClient();
 
     // fetch gig review
@@ -36,10 +35,9 @@ const Reviews = ({ gigId }) => {
         const star = e.target[1].value;
 
         // call mutation and pass data
-        mutation.mutate({gigId, star, desc});
+        mutation.mutate({ gigId, star, desc });
 
     }
-
 
     return (
         <div className="reviews">

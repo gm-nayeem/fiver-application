@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
+import "./pay.scss";
+import {userRequest} from "../../utils/request";
+import { useParams } from "react-router-dom";
+
 import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
-import {userRequest} from "../../utils/request";
 import CheckoutForm from "../../components/checkoutForm/CheckoutForm";
-import { useParams } from "react-router-dom";
-import "./pay.scss";
 
 
 // Make sure to call loadStripe outside of a component’s render to avoid

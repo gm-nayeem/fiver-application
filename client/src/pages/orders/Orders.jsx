@@ -3,10 +3,10 @@ import { useNavigate } from "react-router-dom";
 import "./orders.scss";
 import { userRequest } from "../../utils/request";
 import { useQuery } from "@tanstack/react-query";
-
+import { getCurrentUser } from '../../utils/getCurrentUser';
 
 const Orders = () => {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const currentUser = getCurrentUser();
   const navigate = useNavigate();
 
   // fetch orders
@@ -26,25 +26,27 @@ const Orders = () => {
   const handleOrder = async (order) => {
     const sellerId = order.sellerId;
     const buyerId = order.buyerId;
-    const id = sellerId + buyerId;
+    const conversationId = sellerId + buyerId;
 
     const receiverId = currentUser?.isSeller ? buyerId : sellerId;
 
     try {
       // find conversation id
-      const res = await userRequest.get(`/conversations/single/${id}`);
+      const res = await userRequest.get(`/conversations/single/${conversationId}`);
+
       navigate(`/message/${res.data.id}`, {
-        state: {receiverId: receiverId}
-      })
-    } catch(err) {
-      if(err.response.status ===404) {
+        state: { receiverId: receiverId }
+      });
+    } catch (err) {
+      if (err.response.status === 404) {
         // create conversation if not exists
         const res = await userRequest.post(`/conversations`, {
           to: receiverId
         });
+
         navigate(`/message/${res.data.id}`, {
-          state: {receiverId: receiverId}
-        })
+          state: { receiverId: receiverId }
+        });
       }
     }
   }
@@ -64,11 +66,11 @@ const Orders = () => {
                 </div>
                 <table>
                   <tr>
-                    <th style={{width: "160px"}}>Image</th>
-                    <th style={{width: "200px"}}>Title</th>
-                    <th style={{width: "120px"}}>Price</th>
-                    <th style={{width: "300px"}}>{currentUser.isSeller ? "Buyer" : "Seller"}</th>
-                    <th style={{width: "120px"}}>Contact</th>
+                    <th style={{ width: "160px" }}>Image</th>
+                    <th style={{ width: "200px" }}>Title</th>
+                    <th style={{ width: "120px" }}>Price</th>
+                    <th style={{ width: "300px" }}>{currentUser?.isSeller ? "Buyer Id" : "Seller Id"}</th>
+                    <th style={{ width: "120px" }}>Contact</th>
                   </tr>
                   {
                     data.map(order => (
@@ -84,14 +86,14 @@ const Orders = () => {
                         <td>{order?.price}</td>
                         <td>
                           {
-                            currentUser.isSeller 
-                            ?  order.buyerId
-                            : order.sellerId
+                            currentUser?.isSeller
+                              ? order.buyerId
+                              : order.sellerId
                           }
                         </td>
                         <td>
-                          <img className="message" 
-                            src="./img/message.png" alt="" 
+                          <img className="message"
+                            src="./img/message.png" alt=""
                             onClick={() => handleOrder(order)}
                           />
                         </td>

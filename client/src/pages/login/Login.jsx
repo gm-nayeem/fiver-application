@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./login.scss";
-import {publicRequest} from "../../utils/request";
-import { useNavigate } from "react-router-dom";
+import { publicRequest } from "../../utils/request";
+import { Link, useNavigate } from "react-router-dom";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -12,14 +12,19 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
-      const res = await publicRequest.post("/auth/login", { username, password });
-      localStorage.setItem("currentUser", JSON.stringify(res.data));
-      // console.log(res.data);
-      navigate("/");
+      const res = await publicRequest.post("/auth/login", {
+        username,
+        password
+      });
+
+      if (res.data) {
+        localStorage.setItem("fiverUser", JSON.stringify(res.data));
+        navigate("/", { state: { refresh: 'true' } });
+      }
     } catch (err) {
-      setError(err.response.data);
+      setError(err.response?.data);
     }
   };
 
@@ -31,7 +36,7 @@ function Login() {
         <input
           name="username"
           type="text"
-          placeholder="johndoe"
+          placeholder="john doe"
           onChange={(e) => setUsername(e.target.value)}
         />
 
@@ -42,7 +47,8 @@ function Login() {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button type="submit">Login</button>
-        {error && <span style={{color: red}}>{error}</span>}
+        {error && <span style={{ color: 'red' }}>{error}</span>}
+        <p style={{ textAlign: 'center' }}>{`Don't have an account? `} <Link to={'/register'} className="link">register now</Link></p>
       </form>
     </div>
   );

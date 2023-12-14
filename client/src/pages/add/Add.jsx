@@ -121,7 +121,7 @@ const Add = () => {
               id=""
               placeholder="Brief descriptions to introduce your service to customers"
               cols="0"
-              rows="16"
+              rows="8"
               onChange={handleChange}
             ></textarea>
             <button onClick={handleSubmit}>Create</button>
@@ -141,7 +141,7 @@ const Add = () => {
               id=""
               placeholder="Short description of your service"
               cols="30"
-              rows="10"
+              rows="8"
             ></textarea>
             <label htmlFor="">Delivery Time (e.g. 3 days)</label>
             <input type="number" name="deliveryTime" onChange={handleChange} />
@@ -157,7 +157,7 @@ const Add = () => {
               <button type="submit">add</button>
             </form>
             <div className="addedFeatures">
-              {state?.features?.map((f) => (
+              {state?.features?.map(f => (
                 <div className="item" key={f}>
                   <button
                     onClick={() =>

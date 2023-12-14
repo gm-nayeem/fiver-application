@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./navbar.scss";
+import { menu } from "../../data";
+import { getCurrentUser } from '../../utils/getCurrentUser';
 
 function Navbar() {
   const [active, setActive] = useState(false);
@@ -22,16 +24,14 @@ function Navbar() {
   }, []);
 
   // get current user from local storage
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const currentUser = getCurrentUser();
 
   // logout
-  const handleLogout = async () => {
-    try {
-      localStorage.setItem("currentUser", null);
-      navigate("/login", {replace: true});
-    } catch (err) {
-      console.log(err);
-    }
+  const handleLogout = () => {
+    localStorage.setItem("fiverRefreshed", 'false');
+    localStorage.setItem("fiverUser", null);
+
+    window.location.assign('/login');
   };
 
   return (
@@ -55,31 +55,32 @@ function Navbar() {
                 alt=""
               />
               <span>{currentUser?.username}</span>
-              {open && <div className="options">
-                {currentUser.isSeller && (
-                  <>
-                    <Link className="link" to="/mygigs">
-                      Gigs
-                    </Link>
-                    <Link className="link" to="/add">
-                      Add New Gig
-                    </Link>
-                  </>
-                )}
-                <Link className="link" to="/orders">
-                  Orders
-                </Link>
-                <Link className="link" to="/messages">
-                  Messages
-                </Link>
-                <Link className="link" onClick={handleLogout}>
-                  Logout
-                </Link>
-              </div>}
+              {open && (
+                <div className="options">
+                  {currentUser?.isSeller && (
+                    <>
+                      <Link className="link" to="/mygigs">
+                        Gigs
+                      </Link>
+                      <Link className="link" to="/add">
+                        Add New Gig
+                      </Link>
+                    </>
+                  )}
+                  <Link className="link" to="/orders">
+                    Orders
+                  </Link>
+                  <Link className="link" to="/messages">
+                    Messages
+                  </Link>
+                  <Link className="link" onClick={handleLogout}>
+                    Logout
+                  </Link>
+                </div>
+              )}
             </div>
           ) : (
             <>
-
               <Link className="link" to="/login">
                 <span>Sign in</span>
               </Link>
@@ -94,33 +95,15 @@ function Navbar() {
         <>
           <hr />
           <div className="menu">
-            <Link className="link menuLink" to="/">
-              Graphics & Design
-            </Link>
-            <Link className="link menuLink" to="/">
-              Video & Animation
-            </Link>
-            <Link className="link menuLink" to="/">
-              Writing & Translation
-            </Link>
-            <Link className="link menuLink" to="/">
-              AI Services
-            </Link>
-            <Link className="link menuLink" to="/">
-              Digital Marketing
-            </Link>
-            <Link className="link menuLink" to="/">
-              Music & Audio
-            </Link>
-            <Link className="link menuLink" to="/">
-              Programming & Tech
-            </Link>
-            <Link className="link menuLink" to="/">
-              Business
-            </Link>
-            <Link className="link menuLink" to="/">
-              Lifestyle
-            </Link>
+            {
+              menu.length > 0 ? (
+                menu.map(m => (
+                  <Link key={m} className="link menuLink" to="/">
+                    {m}
+                  </Link>
+                ))
+              ) : null
+            }
           </div>
           <hr />
         </>

@@ -1,15 +1,10 @@
-const mongoose = require("mongoose");
-const { Schema } = mongoose;
+const { Schema, model } = require("mongoose");
 
 const orderSchema = new Schema(
   {
     gigId: {
       type: String,
       required: true,
-    },
-    img: {
-      type: String,
-      required: false,
     },
     title: {
       type: String,
@@ -18,6 +13,10 @@ const orderSchema = new Schema(
     price: {
       type: Number,
       required: true,
+    },
+    img: {
+      type: String,
+      required: false,
     },
     sellerId: {
       type: String,
@@ -41,4 +40,4 @@ const orderSchema = new Schema(
   }
 );
 
-module.exports = mongoose.model("Order", orderSchema);
+module.exports = model("Order", orderSchema);

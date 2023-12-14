@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import React from 'react'
 import {userRequest} from '../../utils/request';
-import './review.scss'
+import './review.scss';
 
 const Review = ({ review }) => {
 

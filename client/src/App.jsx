@@ -30,10 +30,13 @@ import {
   QueryClient,
   QueryClientProvider,
 } from '@tanstack/react-query';
+import { getCurrentUser } from './utils/getCurrentUser';
 
 const App = () => {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const currentUser = getCurrentUser()?._id;
   const queryClient = new QueryClient();
+
+  console.log('current user id: ', currentUser);
 
   const Layout = () => {
     return (
@@ -58,39 +61,39 @@ const App = () => {
         },
         {
           path: "/gigs",
-          element: currentUser ? <Gigs /> : <Navigate to="/" replace/>,
+          element: currentUser ? <Gigs /> : <Navigate to="/" replace />,
         },
         {
           path: "/myGigs",
-          element: currentUser ? <MyGigs /> : <Navigate to="/" replace/>,
+          element: currentUser ? <MyGigs /> : <Navigate to="/" replace />,
         },
         {
           path: "/orders",
-          element: currentUser ? <Orders /> : <Navigate to="/" replace/>,
+          element: currentUser ? <Orders /> : <Navigate to="/" replace />,
         },
         {
           path: "/messages",
-          element: currentUser ? <Messages /> : <Navigate to="/" replace/>,
+          element: currentUser ? <Messages /> : <Navigate to="/" replace />,
         },
         {
           path: "/message/:id",
-          element: currentUser ? <Message /> : <Navigate to="/" replace/>,
+          element: currentUser ? <Message /> : <Navigate to="/" replace />,
         },
         {
           path: "/add",
-          element: currentUser ? <Add /> : <Navigate to="/" replace/>,
+          element: currentUser ? <Add /> : <Navigate to="/" replace />,
         },
         {
           path: "/gig/:id",
-          element: currentUser ? <Gig /> : <Navigate to="/" replace/>,
+          element: currentUser ? <Gig /> : <Navigate to="/" replace />,
         },
         {
           path: "/pay/:gigId",
-          element: currentUser ? <Pay /> : <Navigate to="/" replace/>,
+          element: currentUser ? <Pay /> : <Navigate to="/" replace />,
         },
         {
           path: "/success",
-          element: currentUser ? <Success /> : <Navigate to="/" replace/>,
+          element: currentUser ? <Success /> : <Navigate to="/" replace />,
         },
       ],
     },

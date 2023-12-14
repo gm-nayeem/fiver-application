@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import upload from "../../utils/upload";
 import "./register.scss";
-import {publicRequest} from "../../utils/request";
-import { useNavigate } from "react-router-dom";
+import { publicRequest } from "../../utils/request";
+import { Link, useNavigate } from "react-router-dom";
 
 function Register() {
   const [file, setFile] = useState(null);
@@ -36,6 +36,8 @@ function Register() {
 
     const url = await upload(file);
 
+    console.log("user: ", user);
+
     try {
       await publicRequest.post("/auth/register", {
         ...user,
@@ -56,7 +58,7 @@ function Register() {
           <input
             name="username"
             type="text"
-            placeholder="johndoe"
+            placeholder="john doe"
             onChange={handleChange}
           />
           <label htmlFor="">Email</label>
@@ -78,6 +80,7 @@ function Register() {
             onChange={handleChange}
           />
           <button type="submit">Register</button>
+          <p style={{ textAlign: 'center' }}>{`Already have an account? `} <Link to={'/login'} className="link">login now</Link></p>
         </div>
         <div className="right">
           <h1>I want to become a seller</h1>

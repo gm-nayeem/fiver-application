@@ -3,18 +3,22 @@ import { Link, useLocation, useParams } from "react-router-dom";
 import "./message.scss";
 import { userRequest } from "../../utils/request";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import { getCurrentUser } from '../../utils/getCurrentUser';
 
 const Message = () => {
   const location = useLocation();
   const receiverId = location.state?.receiverId;
-  
+
   const { id } = useParams();
-  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  const currentUser = getCurrentUser();
 
   const queryClient = useQueryClient();
 
-  // find receiver using converstaion id
-  const { isLoading: isLoadingUser, error: errorUser, data: dataUser } = useQuery({
+  // find receiver using receiver id
+  const {
+    isLoading: isLoadingReceivedUser, error: errorReceivedUser,
+    data: receivedUser
+  } = useQuery({
     queryKey: ["user"],
     queryFn: () =>
       userRequest.get(`/users/${receiverId}`).then((res) => {
@@ -22,7 +26,7 @@ const Message = () => {
       }),
   });
 
-  // fetch messages using converstaion id
+  // fetch messages using conversation id
   const { isLoading, error, data } = useQuery({
     queryKey: ["messages"],
     queryFn: () =>
@@ -60,11 +64,11 @@ const Message = () => {
     <div className="message">
       <div className="container">
         {
-          isLoadingUser ? "loading..."
-            : errorUser ? "something went wrong!"
+          isLoadingReceivedUser ? "loading..."
+            : errorReceivedUser ? "something went wrong!"
               : (
                 <span className="breadcrumbs">
-                  <Link to="/messages" className="link">Messages</Link> {` > ${dataUser?.username} >`}
+                  <Link to="/messages" className="link">Messages</Link> {` > ${receivedUser?.username} >`}
                 </span>
               )
         }
@@ -83,8 +87,14 @@ const Message = () => {
                         key={msg._id}
                       >
                         <img
-                          src="https://images.pexels.com/photos/1115697/pexels-photo-1115697.jpeg?auto=compress&cs=tinysrgb&w=1600"
-                          alt=""
+                          src={
+                            msg.userId === currentUser._id ? (
+                              currentUser?.img
+                            ) : (
+                              receivedUser?.img
+                            )
+                          }
+                          alt="profile"
                         />
                         <p>
                           {msg.desc}

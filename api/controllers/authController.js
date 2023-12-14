@@ -3,7 +3,6 @@ const createError = require("../utils/createError");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-// register
 const register = async (req, res, next) => {
     try {
         const hash = bcrypt.hashSync(req.body.password, 5);
@@ -19,7 +18,6 @@ const register = async (req, res, next) => {
     }
 };
 
-// login
 const login = async (req, res, next) => {
     try {
         const user = await User.findOne({ username: req.body.username });
@@ -36,11 +34,11 @@ const login = async (req, res, next) => {
                 isSeller: user.isSeller,
             },
             process.env.JWT_KEY,
-            {expiresIn: "24h"}
+            { expiresIn: "24h" }
         );
 
         const { password, ...info } = user._doc;
-        res.status(200).send({...info, accessToken: token});
+        res.status(200).send({ ...info, accessToken: token });
 
     } catch (err) {
         next(err);
