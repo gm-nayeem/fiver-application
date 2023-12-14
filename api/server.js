@@ -23,9 +23,9 @@ const connect = async () => {
     let mongoUrl;
 
     if (process.env.NODE_ENV === 'production') {
-      mongoUrl = MONGOOSE_ATLAS_URL;
+      mongoUrl = process.env.MONGOOSE_ATLAS_URL;
     } else {
-      mongoUrl = MONGOOSE_LOCAL_URL;
+      mongoUrl = process.env.MONGOOSE_LOCAL_URL;
     }
 
     await mongoose.connect(mongoUrl);
