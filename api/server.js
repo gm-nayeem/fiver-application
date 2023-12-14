@@ -50,6 +50,12 @@ app.use("/api/orders", orderRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Server is running successfully'
+  });
+});
 
 // error generate
 app.use((err, req, res, next) => {
