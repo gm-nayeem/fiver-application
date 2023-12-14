@@ -14,14 +14,21 @@ const orderRoute = require("./routes/orderRoute");
 const conversationRoute = require("./routes/conversationRoute");
 const messageRoute = require("./routes/messageRoute");
 
-
 const app = express();
 
 // mongodb connection
 mongoose.set("strictQuery", true);
 const connect = async () => {
   try {
-    await mongoose.connect(process.env.MONGOOSE_URL);
+    let mongoUrl;
+
+    if (process.env.NODE_ENV === 'production') {
+      mongoUrl = MONGOOSE_ATLAS_URL;
+    } else {
+      mongoUrl = MONGOOSE_LOCAL_URL;
+    }
+
+    await mongoose.connect(mongoUrl);
     console.log("Connected to MongoDB!");
   } catch (error) {
     console.log(error);
