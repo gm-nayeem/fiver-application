@@ -40,6 +40,13 @@ app.use(morgan('dev'));
 app.use(cors());
 app.use(express.json());
 
+// default routes
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'Server is running successfully'
+  });
+});
 
 // routes
 app.use("/api/auth", authRoute);
@@ -49,13 +56,6 @@ app.use("/api/reviews", reviewRoute);
 app.use("/api/orders", orderRoute);
 app.use("/api/conversations", conversationRoute);
 app.use("/api/messages", messageRoute);
-
-app.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Server is running successfully'
-  });
-});
 
 // error generate
 app.use((err, req, res, next) => {
